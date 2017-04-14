@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    
+	<bean id="greedy" class="greedy.Greedy">
+		<constructor-arg name="coinCalculatorFactory" ref="coinCalculatorFactory"/>
+		<constructor-arg name="messageSource" ref="messageSource"/>
+		<constructor-arg name="currencyParser" ref="currencyParser"/>
+		<constructor-arg name="languageCode">
+			<value>en</value>
+		</constructor-arg>
+	</bean>
+
+    <bean id="coinCalculatorFactory" class="greedy.calculator.factory.CoinCalculatorFactoryImpl"></bean>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    	<property name="basename" value="languages/messages"/>
+    </bean>
+    
+    <bean id="currencyParser" class="greedy.parse.CurrencyParserImpl">
+    	<constructor-arg name="localeCodesForAcceptedCurrencyFormats">
+    		<array>
+    			<array><value>en</value><value>US</value></array> <!-- $1,000.00 -->
+    			<array><value>es</value><value>US</value></array> <!-- US$1,000.00 -->
+    			<array><value>de</value><value>DE</value></array> <!-- 1.000,00 €  -->
+    			<array><value>it</value><value>IT</value></array> <!-- € 1.000,00 -->
+    			<array><value>fr</value><value>FR</value></array> <!-- 1 000,00 € -->
+    			<array><value>en</value><value>IE</value></array> <!-- €1,000.00 -->
+    		</array>
+    	</constructor-arg>
+    </bean>
+    	
+</beans>
